@@ -1,0 +1,27 @@
+DECLARE @i INT = 1;
+
+WHILE @i <= 100
+BEGIN
+    INSERT INTO [dbo].[Envio]
+           ([VentaId]
+           ,[ClienteId]
+           ,[FechaEnvio]
+           ,[MetodoEnvio]
+           ,[EstadoEnvio]
+           ,[FechaEntregaEstimada]
+           ,[FechaEntregaReal]
+           ,[DireccionEnvio])
+    VALUES
+           (@i,                           -- VentaId (usando el valor de @i como ejemplo)
+           @i,                             -- ClienteId (usando el valor de @i como ejemplo)
+           GETDATE(),                      -- FechaEnvio (fecha y hora actuales)
+           CASE WHEN @i % 2 = 0 THEN 'Envío a domicilio' ELSE 'Recogida en tienda' END,  -- MetodoEnvio
+           CASE WHEN @i % 2 = 0 THEN 'En tránsito' ELSE 'Entregado' END,    -- EstadoEnvio
+           DATEADD(DAY, @i, GETDATE()),    -- FechaEntregaEstimada (se estiman fechas a partir de hoy)
+           CASE WHEN @i % 2 = 0 THEN NULL ELSE DATEADD(DAY, @i+1, GETDATE()) END,  -- FechaEntregaReal (solo para estado 'Entregado')
+           'Calle Falsa ' + CAST(@i AS NVARCHAR(10)) + ', Ciudad de México, CDMX, ' + CAST(10000 + @i AS NVARCHAR(10))   -- DireccionEnvio (direcciones generadas con números incrementales)
+    );
+
+    SET @i = @i + 1;
+END
+GO
