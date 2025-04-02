@@ -1,0 +1,263 @@
+-- Crear la base de datos
+CREATE DATABASE ZapatosDB;
+GO
+
+-- Usar la base de datos
+USE ZapatosDB;
+GO
+
+-- Crear la tabla Zapatos
+CREATE TABLE Zapatos (
+    Id INT IDENTITY(1,1) PRIMARY KEY,   -- Identificador único para cada zapato
+    Nombre NVARCHAR(100) NOT NULL,        -- Nombre del zapato
+    Marca NVARCHAR(50) NOT NULL,          -- Marca del z
+    Talla INT NOT NULL,                   -- Talla del zapato
+    Color NVARCHAR(30) NOT NULL,          -- Color del zapato
+    Precio DECIMAL(10, 2) NOT NULL,       -- Precio del zapato
+    Stock INT NOT NULL                    -- Cantidad disponible en stock
+);
+GO
+
+CREATE TABLE Clientes (
+    Id INT IDENTITY(1,1) PRIMARY KEY,           -- Identificador único para cada cliente
+    Nombre NVARCHAR(100) NOT NULL,               -- Nombre completo del cliente
+    Direccion NVARCHAR(255) NOT NULL,            -- Dirección de envío del cliente
+    Ciudad NVARCHAR(100) NOT NULL,               -- Ciudad del cliente
+    Estado NVARCHAR(100) NOT NULL,               -- Estado o provincia
+    CodigoPostal NVARCHAR(20) NOT NULL,          -- Código postal
+    Telefono NVARCHAR(20) NOT NULL,              -- Teléfono de contacto del cliente
+    CorreoElectronico NVARCHAR(100) NOT NULL,    -- Correo electrónico del cliente
+    FechaRegistro DATETIME DEFAULT GETDATE()     -- Fecha en que el cliente fue registrado
+);
+GO
+
+
+CREATE TABLE Ventas (
+    Id INT IDENTITY(1,1) PRIMARY KEY,              -- Identificador único para cada venta
+    ClienteId INT NOT NULL,                         -- Identificador del cliente que realiza la compra
+    FechaVenta DATETIME DEFAULT GETDATE(),         -- Fecha y hora de la venta
+    Total DECIMAL(10, 2) NOT NULL,                  -- Monto total de la venta
+    FOREIGN KEY (ClienteId) REFERENCES Clientes(Id)  -- Relación con la tabla de Clientes
+);
+GO
+
+select * from Envio
+USE ZapatosDB;
+GO
+
+
+CREATE TABLE Envio (
+    Id INT IDENTITY(1,1) PRIMARY KEY,              -- Identificador único para cada envío
+    VentaId INT NOT NULL,                           -- Identificador de la venta asociada
+    ClienteId INT NOT NULL,                         -- Identificador del cliente que realiza la compra
+    FechaEnvio DATETIME DEFAULT GETDATE(),          -- Fecha en la que se realiza el envío
+    MetodoEnvio NVARCHAR(100) NOT NULL,             -- Método de envío (por ejemplo, "Envío a domicilio", "Recogida en tienda")
+    EstadoEnvio NVARCHAR(50) NOT NULL,              -- Estado del envío (por ejemplo, "En tránsito", "Entregado")
+    FechaEntregaEstimada DATETIME,                  -- Fecha estimada de entrega
+    FechaEntregaReal DATETIME,                      -- Fecha real de entrega
+    DireccionEnvio NVARCHAR(255) NOT NULL,          -- Dirección de envío (puede ser diferente a la dirección del cliente)
+   );
+GO
+
+
+
+
+
+
+select * from  Zapatos 
+
+INSERT INTO Zapatos (Nombre, Marca, Talla, Color, Precio, Stock)
+VALUES
+    ('Zapato Deportivo', 'Nike', 42, 'Rojo', 49.99, 20),
+    ('Botas de Cuero', 'Adidas', 44, 'Negro', 79.99, 15),
+    ('Zapatillas Casual', 'Puma', 38, 'Azul', 39.99, 50),
+    ('Sandalias Verano', 'Reebok', 36, 'Blanco', 29.99, 30),
+    ('Zapato Elegante', 'Tommy Hilfiger', 43, 'Marrón', 89.99, 25),
+    ('Bota Militar', 'Under Armour', 45, 'Verde', 99.99, 12),
+    ('Zapatilla Running', 'Asics', 40, 'Negro', 59.99, 40),
+    ('Botines de Tacón', 'Steve Madden', 37, 'Beige', 59.99, 35),
+    ('Zapatos Formales', 'Clarks', 41, 'Negro', 65.99, 10),
+    ('Zapatillas Skate', 'Vans', 44, 'Rojo', 49.99, 20),
+    ('Botas de Invierno', 'Columbia', 46, 'Gris', 129.99, 8),
+    ('Zapatillas Deportivas', 'New Balance', 39, 'Verde', 55.99, 30),
+    ('Zapato de Charol', 'Hugo Boss', 40, 'Negro', 100.00, 12),
+    ('Bota de Lluvia', 'Hunter', 43, 'Amarillo', 80.00, 20),
+    ('Sandalias de Playa', 'Crocs', 41, 'Azul', 25.99, 50),
+    ('Zapatos de Baile', 'Bloch', 37, 'Negro', 59.99, 15),
+    ('Zapatillas Nike Air', 'Nike', 42, 'Blanco', 85.00, 30),
+    ('Botines Cowboy', 'Wrangler', 44, 'Marrón', 110.00, 25),
+    ('Zapatillas Running', 'Adidas', 40, 'Rojo', 69.99, 40),
+    ('Zapatos de Cuero', 'Oxford', 43, 'Negro', 120.00, 8),
+    ('Sandalias con Plataforma', 'Birkenstock', 39, 'Beige', 75.00, 20),
+    ('Zapatillas de Skate', 'Nike', 41, 'Negro', 55.99, 30),
+    ('Bota de Nieve', 'North Face', 45, 'Blanco', 150.00, 5),
+    ('Zapatillas Comfort', 'Skechers', 38, 'Gris', 49.99, 50),
+    ('Zapatos de Charol', 'Gucci', 42, 'Negro', 180.00, 10),
+    ('Botines de Cuero', 'Dr. Martens', 43, 'Negro', 135.00, 8),
+    ('Zapato de Baile', 'Capezio', 37, 'Rojo', 40.00, 25),
+    ('Zapatillas Casual', 'Reebok', 40, 'Blanco', 45.00, 60),
+    ('Botas de Invierno', 'Columbia', 44, 'Azul', 110.00, 10),
+    ('Bota Elegante', 'Baldinini', 44, 'Negro', 220.00, 6),
+    ('Zapatillas Running', 'Saucony', 42, 'Lima', 60.00, 30),
+    ('Zapatos Oxford', 'Sperry', 41, 'Marrón', 85.00, 18),
+    ('Botines Urbanos', 'Timberland', 45, 'Beige', 150.00, 12),
+    ('Zapatillas deportivas', 'Nike', 39, 'Negro', 75.00, 22),
+    ('Sandalias de Cuero', 'Clarks', 38, 'Marrón', 40.00, 50),
+    ('Botas Cortas', 'Ugg', 43, 'Café', 130.00, 20),
+    ('Zapatillas Flex', 'Nike', 41, 'Negro', 40.00, 30),
+    ('Zapatos de Golf', 'FootJoy', 40, 'Blanco', 120.00, 10),
+    ('Bota de lluvia', 'Bogs', 44, 'Negro', 75.00, 20),
+    ('Zapatillas Runners', 'Adidas', 38, 'Gris', 55.00, 40),
+    ('Botas Comodidad', 'Timberland', 42, 'Negro', 100.00, 15),
+    ('Zapatillas deportivas', 'Skechers', 41, 'Blanco', 50.00, 45),
+    ('Botines Mujer', 'Nine West', 36, 'Marrón', 60.00, 25),
+    ('Zapatos Ballet', 'Capezio', 37, 'Rosa', 35.00, 30),
+    ('Zapatillas Multiusos', 'Reebok', 40, 'Azul', 55.99, 60),
+    ('Botas Chelsea', 'Dr. Martens', 43, 'Negro', 140.00, 18),
+    ('Sandalias Planas', 'Birkenstock', 39, 'Blanco', 70.00, 50),
+    ('Zapatos Casual', 'Nike', 42, 'Negro', 65.99, 20),
+    ('Botas Altas', 'Timberland', 44, 'Café', 180.00, 8),
+    ('Zapatillas Pumas', 'Puma', 40, 'Verde', 60.00, 25),
+    ('Bota Invierno', 'North Face', 45, 'Negro', 130.00, 15),
+    ('Zapatillas Adidas', 'Adidas', 42, 'Azul', 70.00, 30),
+    ('Botines de Tacón', 'Steve Madden', 37, 'Rojo', 69.00, 12),
+    ('Zapatos de Charol', 'Hugo Boss', 41, 'Negro', 120.00, 10),
+    ('Zapatillas Nike', 'Nike', 42, 'Blanco', 95.00, 20),
+    ('Botas de Nieve', 'Columbia', 44, 'Verde', 150.00, 5),
+    ('Zapatillas Nike Air', 'Nike', 41, 'Rojo', 85.00, 25),
+    ('Sandalias Verano', 'Reebok', 36, 'Amarillo', 30.00, 50),
+    ('Bota de Cuero', 'Adidas', 44, 'Marrón', 80.00, 20),
+    ('Zapatillas Running', 'Asics', 39, 'Gris', 55.99, 30),
+    ('Botines Cortos', 'Steve Madden', 37, 'Negro', 55.00, 20),
+    ('Zapatos Oxford', 'Clarks', 43, 'Negro', 85.00, 15),
+    ('Zapatillas Nike Air', 'Nike', 40, 'Negro', 90.00, 12),
+    ('Bota Casual', 'Timberland', 44, 'Café', 120.00, 10),
+    ('Zapatillas de Cuero', 'Puma', 42, 'Marrón', 60.00, 30),
+    ('Botas Corta', 'Ugg', 45, 'Beige', 110.00, 8),
+    ('Zapatos Elegantes', 'Hugo Boss', 40, 'Negro', 180.00, 15),
+    ('Zapatillas de Lona', 'Vans', 41, 'Blanco', 50.00, 30),
+    ('Botines Altos', 'Dr. Martens', 42, 'Negro', 150.00, 5),
+    ('Zapatillas Running', 'New Balance', 39, 'Gris', 55.00, 25),
+    ('Bota de Senderismo', 'Columbia', 46, 'Negro', 120.00, 10),
+    ('Zapatos de Noche', 'Jimmy Choo', 40, 'Negro', 300.00, 5),
+    ('Zapatillas Deportivo', 'Adidas', 38, 'Azul', 45.00, 20),
+    ('Botas Trekking', 'Columbia', 44, 'Verde', 150.00, 7),
+    ('Zapatillas de Running', 'Asics', 41, 'Negro', 65.00, 18),
+    ('Zapatos de Tacon', 'Manolo Blahnik', 37, 'Rojo', 250.00, 6),
+    ('Botines Fashion', 'Steve Madden', 42, 'Beige', 75.00, 30),
+    ('Sandalias Deportivas', 'Adidas', 39, 'Blanco', 30.00, 25),
+    ('Zapatos Casual', 'Clarks', 43, 'Negro', 65.00, 40),
+    ('Zapatillas Sneakers', 'Nike', 40, 'Gris', 55.00, 35),
+    ('Botas Invierno', 'North Face', 46, 'Azul', 130.00, 10),
+    ('Zapatillas Running', 'Nike', 41, 'Rojo', 80.00, 25),
+    ('Zapatos Formales', 'Tommy Hilfiger', 42, 'Marrón', 100.00, 15),
+    ('Botas de Cuero', 'Nike', 44, 'Negro', 120.00, 8),
+    ('Zapatillas Pumas', 'Puma', 39, 'Blanco', 50.00, 20),
+    ('Zapatos de Cuero', 'Clarks', 40, 'Negro', 85.00, 18),
+    ('Zapatillas Running', 'Adidas', 42, 'Blanco', 75.00, 30),
+    ('Bota de Lluvia', 'Hunter', 45, 'Naranja', 80.00, 25),
+    ('Zapatillas Flex', 'Nike', 38, 'Rojo', 55.00, 40),
+    ('Zapato Casual', 'Puma', 41, 'Azul', 45.00, 22),
+    ('Botas Cowboy', 'Wrangler', 43, 'Marrón', 95.00, 18),
+    ('Zapatillas de Running', 'Adidas', 40, 'Negro', 60.00, 25),
+    ('Zapatos Elegantes', 'Gucci', 41, 'Negro', 180.00, 12),
+    ('Zapatillas Urbanas', 'Reebok', 42, 'Blanco', 50.00, 30),
+    ('Botas de Invierno', 'Columbia', 44, 'Gris', 120.00, 10),
+    ('Zapatos de Fiesta', 'Christian Louboutin', 37, 'Rojo', 350.00, 5),
+    ('Zapatillas Puma', 'Puma', 39, 'Negro', 65.00, 25);
+
+	select * from  Zapatos
+
+	CREATE PROCEDURE AgregarZapato
+    @Nombre NVARCHAR(100),
+    @Marca NVARCHAR(50),
+    @Talla INT,
+    @Color NVARCHAR(30),
+    @Precio DECIMAL(10, 2),
+    @Stock INT
+AS
+BEGIN
+    INSERT INTO Zapatos (Nombre, Marca, Talla, Color, Precio, Stock)
+    VALUES (@Nombre, @Marca, @Talla, @Color, @Precio, @Stock);
+END;
+GO
+CREATE PROCEDURE ActualizarStock
+    @Id INT,               -- Id del zapato a actualizar
+    @NuevoStock INT        -- Nuevo valor de stock
+AS
+BEGIN
+    UPDATE Zapatos
+    SET Stock = @NuevoStock
+    WHERE Id = @Id;
+END;
+GO
+CREATE PROCEDURE EliminarZapato
+    @Id INT                -- Id del zapato a eliminar
+AS
+BEGIN
+    DELETE FROM Zapatos
+    WHERE Id = @Id;
+END;
+GO
+CREATE PROCEDURE ConsultarInventario
+AS
+BEGIN
+    SELECT * FROM Zapatos;
+END;
+GO
+CREATE PROCEDURE ConsultarZapatosPorMarcaColor
+    @Marca NVARCHAR(50) = NULL,  -- Parámetro opcional, si no se especifica se ignora
+    @Color NVARCHAR(30) = NULL   -- Parámetro opcional, si no se especifica se ignora
+AS
+BEGIN
+    SELECT * FROM Zapatos
+    WHERE (@Marca IS NULL OR Marca = @Marca)
+    AND (@Color IS NULL OR Color = @Color);
+END;
+GO
+CREATE PROCEDURE ConsultarZapatoPorId
+    @Id INT                  -- Id del zapato
+AS
+BEGIN
+    SELECT * FROM Zapatos
+    WHERE Id = @Id;
+END;
+GO
+CREATE PROCEDURE ConsultarStockZapato
+    @Id INT                  -- Id del zapato
+AS
+BEGIN
+    SELECT Stock FROM Zapatos
+    WHERE Id = @Id;
+END;
+GO
+CREATE PROCEDURE ConsultarZapatosBajoStock
+    @StockMinimo INT          -- Valor mínimo de stock
+AS
+BEGIN
+    SELECT * FROM Zapatos
+    WHERE Stock < @StockMinimo;
+END;
+GO
+CREATE PROCEDURE RegistrarVenta
+    @Id INT,                  -- Id del zapato vendido
+    @CantidadVendida INT      -- Cantidad de unidades vendidas
+AS
+BEGIN
+    -- Actualizamos el stock del zapato
+    UPDATE Zapatos
+    SET Stock = Stock - @CantidadVendida
+    WHERE Id = @Id;
+
+    -- Insertar registro de venta (si tienes una tabla de ventas, por ejemplo)
+    INSERT INTO Ventas (ZapatoId, Cantidad, FechaVenta)
+    VALUES (@Id, @CantidadVendida, GETDATE());
+END;
+GO
+CREATE TABLE Ventas (
+    VentaId INT IDENTITY(1,1) PRIMARY KEY,
+    ZapatoId INT,
+    Cantidad INT,
+    FechaVenta DATETIME,
+    FOREIGN KEY (ZapatoId) REFERENCES Zapatos(Id)
+);
