@@ -1,0 +1,19 @@
+USE [ZapatosDB]
+GO
+
+DECLARE @i INT = 1;
+
+WHILE @i <= 100
+BEGIN
+    INSERT INTO [dbo].[Ventas]
+           ([ZapatoId]
+           ,[Cantidad]
+           ,[FechaVenta])
+    VALUES
+           (ABS(CHECKSUM(NEWID())) % 10 + 1,    -- ZapatoId (aleatorio entre 1 y 10, suponiendo que hay 10 zapatos en la tabla Zapatos)
+           ABS(CHECKSUM(NEWID())) % 5 + 1,     -- Cantidad (aleatorio entre 1 y 5)
+           GETDATE())                           -- FechaVenta (fecha y hora actuales)
+    
+    SET @i = @i + 1;
+END
+GO
