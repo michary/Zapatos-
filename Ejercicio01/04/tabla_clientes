@@ -1,0 +1,32 @@
+USE [ZapatosDB]
+GO
+
+DECLARE @i INT = 1;
+
+WHILE @i <= 100
+BEGIN
+    INSERT INTO [dbo].[Clientes]
+           ([Nombre]
+           ,[Direccion]
+           ,[Ciudad]
+           ,[Estado]
+           ,[CodigoPostal]
+           ,[Telefono]
+           ,[CorreoElectronico]
+           ,[FechaRegistro]
+           ,[TipoCliente])
+    VALUES
+           ('Cliente ' + CAST(@i AS NVARCHAR(3)),                     -- Nombre (Cliente 1, Cliente 2, ...)
+           'Calle Falsa ' + CAST(@i AS NVARCHAR(3)) + ', Ciudad de México',  -- Direccion (Calle Falsa 1, Calle Falsa 2, ...)
+           'Ciudad de México',                                           -- Ciudad
+           'CDMX',                                                       -- Estado
+           '01000' + CAST(@i AS NVARCHAR(3)),                            -- CodigoPostal (010001, 010002, ...)
+           '555-000' + CAST(@i AS NVARCHAR(3)),                          -- Telefono (555-0001, 555-0002, ...)
+           'cliente' + CAST(@i AS NVARCHAR(3)) + '@email.com',           -- CorreoElectronico (cliente1@email.com, cliente2@email.com, ...)
+           GETDATE(),                                                    -- FechaRegistro (fecha actual)
+           CASE WHEN @i % 2 = 0 THEN 'VIP' ELSE 'Regular' END           -- TipoCliente (alternando entre 'VIP' y 'Regular')
+    );
+
+    SET @i = @i + 1;
+END
+GO
